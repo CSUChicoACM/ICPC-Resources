@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
     /*
-     * We can reduce our search space by parsign the dictionary
+     * We can reduce our search space by parsing the dictionary
      * The map uses a string of consonants as a key, and a pair of the number of vowels and the whole word
      * For example, if our dictionary had the word 'to' we would have ['t': 1,'to'] in the map
      * If we then come across the word 'too', we replace the element at 't' with ['t': 2,'too']
