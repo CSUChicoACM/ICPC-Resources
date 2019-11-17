@@ -20,7 +20,7 @@ void push_front(vector<char> &v, char c) {
 
 /*** Graph Stuff **************************************************************/
 
-void dfsVisit(AdjList &graph, int cur, vector<int> &color) {
+void dfsVisit(AdjList &graph, int cur, vector<char> &color) {
     color[cur] = 'g';
     for (int to : graph[cur]) if (color[to]=='w') dfsVisit(graph, to, color);
     color[cur] = 'b';
@@ -28,7 +28,7 @@ void dfsVisit(AdjList &graph, int cur, vector<int> &color) {
 
 int numSCC(AdjList &graph) {
     int n = graph.size();
-    vector<int> color(n, 'w');
+    vector<char> color(n, 'w');
     int total = 0;
 
     for (int i = 0; i < n; i++) if (color[i]=='w') {
