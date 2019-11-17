@@ -15,6 +15,11 @@ void push_front(vector<char> &v, char c) {
     v[0] = c;
 }
 
+void addEdge(AdjList &graph, int to, int from) {
+    printf("adding edge between %d and %d\n", to, from);
+    graph[to].push_back(from);
+    graph[from].push_back(to);
+}
 
 void readMaze(Maze &maze, int R, int C) {
     maze.resize(R);
@@ -56,19 +61,53 @@ void normalizeMaze(Maze &maze) {
 AdjList getGraph(Maze &maze) {
     int R = maze.size();
     int C = maze[0].size();
-    AdjList graph;
+    int nodesPerRow = C/2;
+    int n = nodesPerRow*(R-1);
+    AdjList graph(n+1);
     int node = 0;
+
     for (int r = 0; r < R-1; r++) {
         int start = r%2;
-        printMaze(maze);
-        printf("-Row %d----------------\n", r);
         for (int c = start; c < C-1; c+=2) {
-            printf("%d:\n%c%c\n%c%c\n\n", node,
-                    maze[r  ][c], maze[r  ][c+1],
-                    maze[r+1][c], maze[r+1][c+1] );
+            // find walls
+            char nw = maze[r  ][c  ];
+            char ne = maze[r  ][c+1];
+            char sw = maze[r+1][c  ];
+            char se = maze[r+1][c+1];
+
+            // determine identity of adjacent nodes
+            int nwn, nen, swn, sen;
+            if (r%2==0) {
+                nwn = r==0?n   : c==0?n   : node-nodesPerRow-1;
+                nen = r==0?n   :            node-nodesPerRow;
+                swn = r==R-2?n : c==0?n   : node+nodesPerRow-1;
+                sen = r==R-2?n :            node+nodesPerRow;
+            } else {
+                nwn =                       node-nodesPerRow;
+                nen =            c==C-2?n : node-nodesPerRow+1;
+                swn = r==R-2?n :            node+nodesPerRow;
+                sen = r==R-2?n : c==C-2?n : node+nodesPerRow+1;
+            }
+
+            // add edges where there are no walls
+            if ( nwn==n && nw=='.' || nen==n && ne=='.' || 
+                 swn==n && sw=='.' || sen==n && se=='.' ) {
+                graph[node].push_back(n);
+                graph[n].push_back(node);
+            }
+            if (nwn!=n && nw=='.') graph[node].push_back(nwn);
+            if (nen!=n && ne=='.') graph[node].push_back(nen);
+            if (swn!=n && sw=='.') graph[node].push_back(swn);
+            if (sen!=n && se=='.') graph[node].push_back(sen);
+
             node++;
         }
-        printf("----------------------\n");
+    }
+    for (int i = 0; i <= n; i++)
+    {
+        printf("%d: ", i);
+        for (int to : graph[i]) cout << to << " ";
+        cout << endl;
     }
     return graph;
 }
