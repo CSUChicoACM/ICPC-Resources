@@ -15,24 +15,11 @@ void push_front(vector<char> &v, char c) {
     v[0] = c;
 }
 
-void addEdge(AdjList &graph, int to, int from) {
-    printf("adding edge between %d and %d\n", to, from);
-    graph[to].push_back(from);
-    graph[from].push_back(to);
-}
-
 void readMaze(Maze &maze, int R, int C) {
     maze.resize(R);
     for (int r = 0; r < R; r++) {
         maze[r].resize(C);
         for (int c = 0; c < C; c++) cin >> maze[r][c];
-    }
-}
-
-void printMaze(Maze &maze) {
-    for (auto &row : maze) {
-        for (char &c : row) cout << c;
-        cout << endl;
     }
 }
 
