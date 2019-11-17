@@ -15,6 +15,24 @@ void push_front(vector<char> &v, char c) {
     v[0] = c;
 }
 
+void dfsVisit(AdjList &graph, int cur, vector<int> &color) {
+    color[cur] = 'g';
+    for (int to : graph[cur]) if (color[to]=='w') dfsVisit(graph, to, color);
+    color[cur] = 'b';
+}
+
+int numSCC(AdjList &graph) {
+    int n = graph.size();
+    vector<int> color(n, 'w');
+    int total = 0;
+
+    for (int i = 0; i < n; i++) if (color[i]=='w') {
+        dfsVisit(graph, i, color);
+        total++;
+    }
+    return total;
+}
+
 void readMaze(Maze &maze, int R, int C) {
     maze.resize(R);
     for (int r = 0; r < R; r++) {
@@ -90,12 +108,6 @@ AdjList getGraph(Maze &maze) {
             node++;
         }
     }
-    for (int i = 0; i <= n; i++)
-    {
-        printf("%d: ", i);
-        for (int to : graph[i]) cout << to << " ";
-        cout << endl;
-    }
     return graph;
 }
 
@@ -108,6 +120,6 @@ int main() {
 
     normalizeMaze(maze);
 
-    //printMaze(maze);
-    getGraph(maze);
+    AdjList graph = getGraph(maze);
+    cout << numSCC(graph)-1 << endl;
 }
