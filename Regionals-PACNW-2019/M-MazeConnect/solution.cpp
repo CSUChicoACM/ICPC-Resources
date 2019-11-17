@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <list>
 using namespace std;
 
 
 typedef vector<vector<char>> Maze;
+typedef vector<list<int>> AdjList;
 
 
 // linear time but that's ok
@@ -51,6 +53,26 @@ void normalizeMaze(Maze &maze) {
         for (auto &row : maze) row.push_back('.');
 }
 
+AdjList getGraph(Maze &maze) {
+    int R = maze.size();
+    int C = maze[0].size();
+    AdjList graph;
+    int node = 0;
+    for (int r = 0; r < R-1; r++) {
+        int start = r%2;
+        printMaze(maze);
+        printf("-Row %d----------------\n", r);
+        for (int c = start; c < C-1; c+=2) {
+            printf("%d:\n%c%c\n%c%c\n\n", node,
+                    maze[r  ][c], maze[r  ][c+1],
+                    maze[r+1][c], maze[r+1][c+1] );
+            node++;
+        }
+        printf("----------------------\n");
+    }
+    return graph;
+}
+
 int main() {
     int R, C;
     Maze maze;
@@ -60,5 +82,6 @@ int main() {
 
     normalizeMaze(maze);
 
-    printMaze(maze);
+    //printMaze(maze);
+    getGraph(maze);
 }
