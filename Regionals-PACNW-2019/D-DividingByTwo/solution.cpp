@@ -18,11 +18,8 @@ int main() {
             ops++;
             continue;
         }
-        if (A<B) {
-            ops+=B-A;
-            break;
-        }
     }
+    ops+=B-A;
 
     cout << ops << endl;
 }
