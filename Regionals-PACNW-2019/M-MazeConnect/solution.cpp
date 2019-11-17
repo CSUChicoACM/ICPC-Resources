@@ -49,7 +49,7 @@ void normalizeMaze(Maze &maze) {
     if (!isEven(maze))
         for (auto &row : maze) push_front(row, '.');
 
-    if (maze[0].size() % 2 == 1)
+    if (maze[0].size() % 2 == 0)
         for (auto &row : maze) row.push_back('.');
 }
 
