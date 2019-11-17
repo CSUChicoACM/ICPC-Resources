@@ -8,12 +8,17 @@ typedef vector<vector<char>> Maze;
 typedef vector<list<int>> AdjList;
 
 
+/*** Vector stuff (to fill in stl's holes...) *********************************/
+
 // linear time but that's ok
 void push_front(vector<char> &v, char c) {
     v.resize(v.size()+1);
     for (int i = v.size()-1; i; i--) v[i] = v[i-1];
     v[0] = c;
 }
+
+
+/*** Graph Stuff **************************************************************/
 
 void dfsVisit(AdjList &graph, int cur, vector<int> &color) {
     color[cur] = 'g';
@@ -32,6 +37,9 @@ int numSCC(AdjList &graph) {
     }
     return total;
 }
+
+
+/*** Maze stuff (to parse the horribly formatted input) ***********************/
 
 void readMaze(Maze &maze, int R, int C) {
     maze.resize(R);
@@ -111,6 +119,9 @@ AdjList getGraph(Maze &maze) {
     return graph;
 }
 
+
+/*** Main *********************************************************************/
+
 int main() {
     int R, C;
     Maze maze;
@@ -123,3 +134,5 @@ int main() {
     AdjList graph = getGraph(maze);
     cout << numSCC(graph)-1 << endl;
 }
+
+/******************************************************************************/
