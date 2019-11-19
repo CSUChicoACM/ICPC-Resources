@@ -12,14 +12,10 @@ typedef  vector<vector<int>>        Matrix;
 void dfsVisit(AdjList &graph, Matrix &distances, list<int> &seen, int cur, int parent) {
     seen.push_back(cur);
     for (edge &e : graph[cur]) if (e.to != parent) {
-        printf("%d->%d: ", cur, e.to);
         for (int s : seen) {
-            int w = distances[cur][s] + e.w;
-            printf("{%d,%d,%d} ", s, e.to, w);
-            distances[s][e.to] = w;
-            distances[e.to][s] = w;
+            distances[s][e.to] = distances[cur][s] + e.w;
+            distances[e.to][s] = distances[cur][s] + e.w;
         }
-        printf("\n");
         dfsVisit(graph, distances, seen, e.to, cur);
     }
 }
@@ -47,19 +43,13 @@ int main() {
         graph[v].push_back({u,w});
     }
 
-    for (int i = 0; i < N; i++) {
-        printf("%d: ", i);
-        for (edge &e : graph[i]) printf("{%d,%d} ", e.to, e.w);
-        printf("\n");
-    }
-
     Matrix distances;
     getDistances(graph, distances);
 
     for (int i = 0; i < N; i++) {
+        int total = 0;
         for (int j = 0; j < N; j++)
-            printf("%2d ", distances[i][j]);
-        printf("\n");
+            total += (tax[i]+tax[j]) * distances[i][j];
+        printf("%d\n", total);
     }
-
 }
