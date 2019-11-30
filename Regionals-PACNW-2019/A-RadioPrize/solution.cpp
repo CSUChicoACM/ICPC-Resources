@@ -33,16 +33,13 @@ void processEdge(AdjList &graph, vector<int> &tax, edge &e1) {
     e1.ttm += tax[e1.to];
     e1.tel += e1.nn  * e1.w;
     e1.ttr += e1.ttm * e1.w;
-
-    printf("%d--%d-->%d\n", e1.from, e1.w, e1.to);
-    printf("ttm:%d\ntel:%d\nttr:%d\nnn:%d\n----------------\n\n", e1.ttm, e1.tel, e1.ttr, e1.nn);
 }
 
 void getDistances(AdjList &graph, vector<int> &tax) {
     for (int i = 0; i < graph.size(); i++) {
         edge e = {-1, i, 0, -1, -1, -1, -1};
         processEdge(graph, tax, e);
-        printf("======\n%d\n======\n\n\n", e.ttr + (e.tel*tax[i]));
+        printf("%d\n", e.ttr + (e.tel*tax[i]));
     }
 }
 
