@@ -39,9 +39,11 @@ void processEdge(AdjList &graph, vector<int> &tax, edge &e1) {
 }
 
 void getDistances(AdjList &graph, vector<int> &tax) {
-    edge e = {-1, 0, 0, -1, -1, -1, -1};
-    processEdge(graph, tax, e);
-    printf("%d\n", e.ttr + (e.tel*tax[0]));
+    for (int i = 0; i < graph.size(); i++) {
+        edge e = {-1, i, 0, -1, -1, -1, -1};
+        processEdge(graph, tax, e);
+        printf("======\n%d\n======\n\n\n", e.ttr + (e.tel*tax[i]));
+    }
 }
 
 
